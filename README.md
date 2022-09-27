@@ -1,5 +1,13 @@
 # Odin-edt
 
+## Hypothèse
+
+Comment récupérer l'edt:
+
+    - cas login -> url requete ticket
+    - requete ticket -> phpsessid
+    - phpsessid + data -> edt
+
 ## CURL
 
 Requête pour avoir l'html de l'emploi du temps:
