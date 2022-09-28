@@ -4,7 +4,8 @@
 
 Comment récupérer l'edt:
 
-    - cas login -> url requete ticket
+    - cas login page -> input value
+    - login + input value -> requete ticket
     - requete ticket -> phpsessid
     - phpsessid + data -> edt
 
