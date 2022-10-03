@@ -13,8 +13,8 @@ _non je ne vole pas vos mots de passe :)_
 
 ## To Do List
 
-[ ] Say if user:password is correct or no
-[ ] Better output
-[ ] Read username from config file
-[ ] Review code
-[ ] Options for tomorrow schedule
+- [ ] Say if user:password is correct or no
+- [ ] Better output
+- [ ] Read username from config file
+- [ ] Review code
+- [ ] Options for tomorrow schedule
