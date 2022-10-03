@@ -18,3 +18,4 @@ _non je ne vole pas vos mots de passe :)_
 - [ ] Read username from config file
 - [ ] Review code
 - [ ] Options for tomorrow schedule
+- [ ] Make a test file
