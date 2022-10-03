@@ -8,29 +8,6 @@ phpsessid=""
 read -p "Username: " user
 read -sp "Password: " password
 
-odin(){
-curl 'https://odin.iut.uca.fr/' \
-  -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9' \
-  -H 'Accept-Language: fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7' \
-  -H 'Connection: keep-alive' \
-  -H 'Sec-Fetch-Dest: document' \
-  -H 'Sec-Fetch-Mode: navigate' \
-  -H 'Sec-Fetch-Site: none' \
-  -H 'Sec-Fetch-User: ?1' \
-  -H 'Upgrade-Insecure-Requests: 1' \
-  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36' \
-  -H 'sec-ch-ua: "Chromium";v="105", "Not)A;Brand";v="8"' \
-  -H 'sec-ch-ua-mobile: ?0' \
-  -H 'sec-ch-ua-platform: "Linux"' \
-  --compressed
-echo "🟢 [[Odin request]]"
-}
-
-portail(){
-curl 'https://odin.iut.uca.fr/portail' --compressed
-echo "🟢 [[Portail request]]"
-}
-
 portail2(){
 phpsessidnul=$(curl 'https://odin.iut.uca.fr/portail/' \
   -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9' \
@@ -126,8 +103,6 @@ echo $phpsessid
 echo '---------------------------------------'
 }
 
-#odin
-#portail
 portail2
 loginservice
 login $user $password $value
