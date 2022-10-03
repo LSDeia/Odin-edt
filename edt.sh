@@ -5,8 +5,8 @@ value=""
 ticket=""
 phpsessid=""
 
-read user
-read password
+read -p "Username: " user
+read -sp "Password: " password
 
 odin(){
 curl 'https://odin.iut.uca.fr/' \
@@ -113,7 +113,7 @@ echo "🟢 [[Ticket Request]]"
 }
 
 edt(){
-curl 'https://odin.iut.uca.fr/etudiants/index.php' -X POST -H "Cookie: $phpsessid" --data-raw 'bind=doing&edt=lazy' -v
+curl 'https://odin.iut.uca.fr/etudiants/index.php' -X POST -H "Cookie: $phpsessid" --data-raw 'bind=doing&edt=lazy' -v --output edt.html
 echo "🟢 [[Edt Request]]"
 }
 
@@ -126,8 +126,8 @@ echo $phpsessid
 echo '---------------------------------------'
 }
 
-odin
-portail
+#odin
+#portail
 portail2
 loginservice
 login $user $password $value
