@@ -23,7 +23,7 @@ phpsessidnul=$(curl 'https://odin.iut.uca.fr/portail/' \
   -H 'sec-ch-ua-mobile: ?0' \
   -H 'sec-ch-ua-platform: "Linux"' \
   --compressed -v --stderr - | grep -P 'PHPSESSID' | cut -d ' ' -f 3 | cut -d ';' -f 1)
-echo "🟢 [[Portail2 request]]"
+#echo "🟢 [[Portail2 request]]"
 }
 
 loginservice(){
@@ -41,7 +41,7 @@ value=$(curl 'https://ent.uca.fr/cas/login?service=https%3A%2F%2Fodin.iut.uca.fr
   -H 'upgrade-insecure-requests: 1' \
   -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36' \
   --compressed --stderr - | grep -oP "[a-zA-Z0-9]{8}[-]{1}[a-zA-Z0-9\-\_]+")
-echo "🟢 [[Login Service]]"
+#echo "🟢 [[Login Service]]"
 }
 
 login(){
@@ -65,7 +65,7 @@ ticket=$(curl 'https://ent.uca.fr/cas/login' \
   -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36' \
   --data-raw "username=$user&password=$password&execution=$value%3D&_eventId=submit&geolocation=&submit=SE+CONNECTER" \
   --compressed -v --stderr - | grep -P 'ST-' | cut -d ' ' -f 3)
-echo "🟢 [[Login Request]]"
+#echo "🟢 [[Login Request]]"
 }
 
 ticket(){
@@ -86,12 +86,12 @@ phpsessid=$(curl "$ticket" \
   -H 'sec-ch-ua-mobile: ?0' \
   -H 'sec-ch-ua-platform: "Linux"' \
   --compressed -v --stderr - | grep -oP 'PHPSESSID\=[a-zA-Z0-9]{40,200}')
-echo "🟢 [[Ticket Request]]"
+#echo "🟢 [[Ticket Request]]"
 }
 
 edt(){
-curl 'https://odin.iut.uca.fr/etudiants/index.php' -X POST -H "Cookie: $phpsessid" --data-raw 'bind=doing&edt=lazy' -v --output edt.html
-echo "🟢 [[Edt Request]]"
+curl 'https://odin.iut.uca.fr/etudiants/index.php' -X POST -H "Cookie: $phpsessid" --data-raw 'bind=doing&edt=lazy' -s --output schedule.html
+#echo "🟢 [[Edt Request]]"
 }
 
 summary(){
