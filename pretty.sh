@@ -1,8 +1,8 @@
 #!/bin/bash
 
 FILE='schedule.html' #have to be replace by scheduled.html
-FORMATED='pretty-scheduled.txt'
-CLEANFILE='clean-scheduled.txt'
+FORMATED='pretty-schedule.txt'
+CLEANFILE='clean-schedule.txt'
 #Delete all 
 cat $FILE | sed 's/<[^>]*>//g;s/&nbsp//g;s/;//g;s/salle: //g;s/enseignant://g;s/enseignants://g;s/  //g;/^$/d' > $CLEANFILE
 
