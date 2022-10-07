@@ -4,8 +4,12 @@ phpsessidnul=""
 value=""
 ticket=""
 phpsessid=""
+user=$(cat edt.conf)
 
-read -p "Username: " user
+if [ -z $user ]; then
+    read -sp "Username: " user
+fi
+
 read -sp "Password: " password
 
 portail2(){
@@ -103,6 +107,7 @@ echo $phpsessid
 echo '---------------------------------------'
 }
 
+echo -e "\nDownloading Odin schedule..."
 portail2
 loginservice
 login $user $password $value
