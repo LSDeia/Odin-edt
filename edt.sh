@@ -6,13 +6,16 @@ ticket=""
 phpsessid=""
 user=$(cat edt.conf)
 
+# Récupère les identifiants ent pour la connection
+auth(){
 if [ -z $user ]; then
     read -sp "Username: " user
 fi
 
 read -sp "Password: " password
+}
 
-portail2(){
+req_portail2(){
 phpsessidnul=$(curl 'https://odin.iut.uca.fr/portail/' \
   -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9' \
   -H 'Accept-Language: fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7' \
@@ -30,7 +33,7 @@ phpsessidnul=$(curl 'https://odin.iut.uca.fr/portail/' \
 #echo "🟢 [[Portail2 request]]"
 }
 
-loginservice(){
+req_loginservice(){
 value=$(curl 'https://ent.uca.fr/cas/login?service=https%3A%2F%2Fodin.iut.uca.fr%2Fportail%2F' \
   -H 'authority: ent.uca.fr' \
   -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9' \
@@ -48,7 +51,7 @@ value=$(curl 'https://ent.uca.fr/cas/login?service=https%3A%2F%2Fodin.iut.uca.fr
 #echo "🟢 [[Login Service]]"
 }
 
-login(){
+req_login(){
 ticket=$(curl 'https://ent.uca.fr/cas/login' \
   -H 'authority: ent.uca.fr' \
   -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9' \
@@ -72,7 +75,7 @@ ticket=$(curl 'https://ent.uca.fr/cas/login' \
 #echo "🟢 [[Login Request]]"
 }
 
-ticket(){
+req_ticket(){
 phpsessid=$(curl "$ticket" \
   -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9' \
   -H 'Accept-Language: fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7' \
@@ -93,24 +96,28 @@ phpsessid=$(curl "$ticket" \
 #echo "🟢 [[Ticket Request]]"
 }
 
-edt(){
-curl 'https://odin.iut.uca.fr/etudiants/index.php' -X POST -H "Cookie: $phpsessid" --data-raw 'bind=doing&edt=lazy' -s --output schedule.html
-#echo "🟢 [[Edt Request]]"
+req_edt(){
+    curl 'https://odin.iut.uca.fr/etudiants/index.php' -X POST -H "Cookie: $phpsessid" --data-raw 'bind=doing&edt=lazy' -s --output schedule.html
 }
 
-summary(){
-echo '--------------- SUMMARY ---------------'
-echo $phpsessidnul
-echo $value
-echo $ticket
-echo $phpsessid
-echo '---------------------------------------'
+need_download(){
+    creation_date=$(stat -c %w schedule.html 2>/dev/null | cut -d ' ' -f 1)
+    today=$(date +"%Y-%m-%d")
+
+    if [ "$creation_date" != "$today" ]; then
+        echo "Téléchargement de l'emploi du temps..."
+        download_edt
+    fi
 }
 
-echo -e "\nDownloading Odin schedule..."
-portail2
-loginservice
-login $user $password $value
+download_edt(){
+auth
+req_portail2
+req_loginservice
+req_login $user $password $value
 ticket=$(echo $ticket | sed 's/\r$//')
-ticket $ticket $phpsessidnul
-edt $phpsessid
+req_ticket $ticket $phpsessidnul
+req_edt $phpsessid
+}
+
+need_download
